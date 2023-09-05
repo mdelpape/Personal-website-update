@@ -26,13 +26,22 @@ const Scene = () => {
     const geometry = new THREE.BoxGeometry();
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
+    cube.position.x = -2;
     scene.add(cube);
+
+    const geometry2 = new THREE.TorusGeometry();
+    const material2 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const torus = new THREE.Mesh(geometry2, material2);
+    torus.position.x = 2;
+    scene.add(torus);
 
     const renderScene = () => {
       renderer.render(scene, camera);
     };
 
     const animate = () => {
+      torus.rotation.x += 0.01;
+      torus.rotation.y += 0.01;
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
 
