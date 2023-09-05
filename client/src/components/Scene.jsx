@@ -52,6 +52,7 @@ const Scene = () => {
       renderScene();  // Re-render the scene
     };
 
+    handleResize();  // Render the scene on mount
     window.addEventListener('resize', handleResize);
     animate();  // Start the animation loop
 
