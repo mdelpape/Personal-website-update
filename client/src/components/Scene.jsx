@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 const Scene = () => {
   const canvasRef = useRef(null);
@@ -22,17 +23,19 @@ const Scene = () => {
     );
     camera.position.z = 5;
 
+    // Initialize OrbitControls
+    const controls = new OrbitControls(camera, renderer.domElement);
+
     // Geometry and Material (Example: simple cube)
     const geometry = new THREE.BoxGeometry();
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
-    cube.position.x = -2;
     scene.add(cube);
 
+    // Geometry and Material (Example: simple torus)
     const geometry2 = new THREE.TorusGeometry();
     const material2 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
     const torus = new THREE.Mesh(geometry2, material2);
-    torus.position.x = 2;
     scene.add(torus);
 
     const renderScene = () => {
@@ -46,6 +49,7 @@ const Scene = () => {
       cube.rotation.y += 0.01;
 
       renderScene();
+      controls.update(); // Required if controls.enableDamping or controls.autoRotate are set to true
 
       animationFrameId.current = requestAnimationFrame(animate);
     };
@@ -65,14 +69,14 @@ const Scene = () => {
     window.addEventListener('resize', handleResize);
     animate();  // Start the animation loop
 
-    // Cleanup: remove event listener and cancel animation frame on component unmount
+    // Cleanup: remove event listener, cancel animation frame, and dispose controls on component unmount
     return () => {
       window.removeEventListener('resize', handleResize);
+      controls.dispose();
       if (animationFrameId.current) {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-
   }, []);
 
   return (
