@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+import { Reflector } from 'three/addons/objects/Reflector.js';
 
 const Scene = () => {
   const canvasRef = useRef(null);
@@ -16,7 +17,7 @@ const Scene = () => {
     renderer.setPixelRatio(window.devicePixelRatio);
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x000000);
+    scene.background = new THREE.Color(0x025B62);
 
     const camera = new THREE.PerspectiveCamera(
       75, window.innerWidth / window.innerHeight, 0.1, 1000
@@ -26,16 +27,43 @@ const Scene = () => {
     // Initialize OrbitControls
     const controls = new OrbitControls(camera, renderer.domElement);
 
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(1, 1, 1);
+    scene.add(light);
+
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+    scene.add(ambientLight);
+
+      let groundMirror;
+      // ... you can now proceed with creating the reflector object
+      const mirrorGeometry = new THREE.CircleGeometry( 40, 64 );
+				groundMirror = new Reflector( mirrorGeometry, {
+					clipBias: 0.003,
+					textureWidth: window.innerWidth * window.devicePixelRatio,
+					textureHeight: window.innerHeight * window.devicePixelRatio,
+					color: 0x045278
+				} );
+				groundMirror.position.y = -2;
+				groundMirror.rotateX( - Math.PI / 2 );
+				scene.add( groundMirror );
+
+
+
+
+
+
     // Geometry and Material (Example: simple cube)
     const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
     const cube = new THREE.Mesh(geometry, material);
+    cube.position.x = -2;
     scene.add(cube);
 
     // Geometry and Material (Example: simple torus)
     const geometry2 = new THREE.TorusGeometry();
-    const material2 = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    const material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
     const torus = new THREE.Mesh(geometry2, material2);
+    torus.position.x = 2;
     scene.add(torus);
 
     const renderScene = () => {
