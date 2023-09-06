@@ -47,6 +47,11 @@ const Scene = () => {
 				groundMirror.rotateX( - Math.PI / 2 );
 				scene.add( groundMirror );
 
+    const largeTorusGeometry = new THREE.TorusGeometry( 10, 3, 10, 100 );
+    const largeTorusMaterial = new THREE.MeshStandardMaterial( { color: 0xffffff, metalness: 0.5, roughness: 0.1 } );
+    const largeTorus = new THREE.Mesh( largeTorusGeometry, largeTorusMaterial );
+    largeTorus.position.y = -2;
+    scene.add( largeTorus );
 
 
 
@@ -54,15 +59,14 @@ const Scene = () => {
 
     // Geometry and Material (Example: simple cube)
     const geometry = new THREE.BoxGeometry();
-    const material = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+    const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
     const cube = new THREE.Mesh(geometry, material);
     cube.position.x = -2;
     scene.add(cube);
 
     // Geometry and Material (Example: simple torus)
     const geometry2 = new THREE.TorusGeometry();
-    const material2 = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
-    const torus = new THREE.Mesh(geometry2, material2);
+    const torus = new THREE.Mesh(geometry2, material);
     torus.position.x = 2;
     scene.add(torus);
 
