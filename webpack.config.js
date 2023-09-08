@@ -25,13 +25,17 @@ module.exports = {
         },
       },
       {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-      {
-        test: /.(jpe?g|png|gif|svg)$/i,
-        use: 'file-loader',
-      },
+        test: /\.(jpe?g|png|gif|svg)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: 'assets/[name].[ext]'  // This saves the images in an assets folder in the output directory
+            }
+          }
+        ]
+      }
     ],
   },
 };
+
