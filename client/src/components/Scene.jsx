@@ -5,7 +5,10 @@ import { Reflector } from "three/addons/objects/Reflector.js";
 import LoaderManager from "../managers/LoaderManager";
 import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
-import waterdudv from '../assets/waterdudv.jpg'
+import waterdudv from "../assets/waterdudv.jpg";
+import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
+import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+// import font from '@/client/src/assets/fonts/optimer_bold.typeface.json'
 // OBJLoader(THREE);
 
 const Scene = () => {
@@ -23,7 +26,7 @@ const Scene = () => {
       ];
       await LoaderManager.load(assets);
       setAssetsLoaded(true);
-      console.log(LoaderManager.get("waterdudv"));
+      // console.log(LoaderManager.get("waterdudv"));
     };
     init();
   }, []);
@@ -43,7 +46,7 @@ const Scene = () => {
       renderer.setPixelRatio(window.devicePixelRatio);
 
       const scene = new THREE.Scene();
-      scene.background = new THREE.Color(0x091A32);
+      scene.background = new THREE.Color(0x000000);
 
       const camera = new THREE.PerspectiveCamera(
         75,
@@ -51,18 +54,17 @@ const Scene = () => {
         0.1,
         1000
       );
-      camera.position.z = 5;
+      camera.position.set(0, 3, 10);
 
       // Initialize OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
 
-      const light = new THREE.DirectionalLight(0xffffff, 1);
+      const light = new THREE.DirectionalLight(0xffffff, 5);
       light.position.set(1, 1, 1);
       scene.add(light);
 
       const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
       scene.add(ambientLight);
-
 
       let groundMirror;
 
@@ -152,7 +154,7 @@ const Scene = () => {
         clipBias: 0.003,
         textureWidth: window.innerWidth * window.devicePixelRatio,
         textureHeight: window.innerHeight * window.devicePixelRatio,
-        color: 0x045278,
+        color: 0x003272,
       });
       groundMirror.position.y = -2;
       groundMirror.rotateX(-Math.PI / 2);
@@ -168,30 +170,88 @@ const Scene = () => {
       });
       const largeTorus = new THREE.Mesh(largeTorusGeometry, largeTorusMaterial);
       largeTorus.position.y = -2;
-      scene.add(largeTorus);
+      // scene.add(largeTorus);
 
       // Geometry and Material (Example: simple cube)
       const geometry = new THREE.BoxGeometry();
       const material = new THREE.MeshStandardMaterial({ color: 0xffffff });
       const cube = new THREE.Mesh(geometry, material);
-      cube.position.x = -2;
+      cube.position.y = 3;
       scene.add(cube);
+
+      // Geometry and Material (Example: simple sphere)
+      const textStandGeometry = new THREE.BoxGeometry(13, 0.5, 2);
+      const textStandMaterial = new THREE.MeshStandardMaterial({
+        color: 0xdbdbdb,
+      });
+      const textStand = new THREE.Mesh(textStandGeometry, textStandMaterial);
+      textStand.position.y = -1.8;
+      // scene.add(textStand);
+
+      // Geometry and Material (Example: simple torusKnot  with custom texture)
+      const torusKnotGeometry = new THREE.TorusKnotGeometry(
+        50,
+        5,
+        300,
+        64,
+        5,
+        2,
+        4
+      );
+      const torusKnotMaterial = new THREE.MeshStandardMaterial({
+        color: 0x800000,
+        metalness: 0.5,
+        roughness: 0.1,
+      });
+      const torusKnot = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
+      torusKnot.position.x = 0;
+      torusKnot.position.z = 0;
+      scene.add(torusKnot);
 
       // Geometry and Material (Example: simple torus)
       const geometry2 = new THREE.TorusGeometry();
       const torus = new THREE.Mesh(geometry2, material);
       torus.position.x = 2;
-      scene.add(torus);
+      // scene.add(torus);
+
+      // Load font
+      const fontLoader = new FontLoader();
+      let text;
+      fontLoader.load(
+        "https://threejsfundamentals.org/threejs/resources/threejs/fonts/helvetiker_regular.typeface.json",
+        (font) => {
+          const textGeometry = new TextGeometry("Michael Del Pape", {
+            font: font,
+            size: 1,
+            height: 0.2,
+            curveSegments: 12,
+            bevelEnabled: true,
+            bevelThickness: 0.03,
+            bevelSize: 0.02,
+            bevelOffset: 0,
+            bevelSegments: 5,
+          });
+          textGeometry.center();
+
+          text = new THREE.Mesh(textGeometry, material);
+          text.position.y = -2.8;
+          scene.add(text);
+        }
+      );
 
       const renderScene = () => {
         renderer.render(scene, camera);
       };
 
       const animate = () => {
+        if (text && text.position.y < 0) {
+          text.position.y += 0.01;
+        }
+        torusKnot.rotation.x += 0.001;
         torus.rotation.x += 0.01;
         torus.rotation.y += 0.01;
-        cube.rotation.x += 0.01;
-        cube.rotation.y += 0.01;
+        cube.rotation.x += 0.005;
+        cube.rotation.y += 0.005;
         groundMirror.material.uniforms.time.value += 0.1;
 
         renderScene();
