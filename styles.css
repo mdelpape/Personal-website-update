@@ -1,0 +1,36 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#App {
+  overflow: hidden;
+  height: 100vh;
+}
+
+#header {
+  height: 30px;
+  width: 100%;
+  background-color: transparent;
+  position: absolute;
+  display: flex; /* Add this line */
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.headerBtn {
+  height: 30px;
+  width: 70px;
+  background-color: white;
+  border: none;
+  outline: 1px solid black;
+  cursor: pointer;
+  font-size: 15px;
+  border-radius: 5px;
+  margin: 5px 5px;
+}
+
+.headerBtn:hover {
+  background-color: #bebebe;
+}
