@@ -11,7 +11,8 @@ import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
 import { randFloat } from "three/src/math/MathUtils.js";
 // import person from "../assets/OBJ.obj";
 // import michal from "../assets/uploads_files_3684990_Michal.obj";
-// import house from "../assets/uploads_files_593643_247_House+15_obj.obj";
+import house from "../assets/uploads_files_593643_247_House+15_obj.obj";
+import water from "../assets/waterdudv.jpg";
 // import fireHydrant from "../assets/FireHydrant_LOD1.obj";
 // import font from '@/client/src/assets/fonts/optimer_bold.typeface.json'
 // OBJLoader(THREE);
@@ -173,18 +174,18 @@ const Scene = () => {
       //change speed of water
 
       // Object Loader (Example: loaded object from the web);
-      const loader = new OBJLoader();
-      loader.load("../assets/FireHydrant_LOD1.obj", (object) => {
-        object.position.y = -2;
-        object.position.x = -100;
-        object.position.z = -100;
-        object.traverse((child) => {
-          if (child.isMesh) {
-            child.material.color.set(0x711f15); // Change to red color
-          }
-        });
-        // scene.add(object);
-      });
+      // const loader = new OBJLoader();
+      // loader.load("../assets/FireHydrant_LOD1.obj", (object) => {
+      //   object.position.y = -2;
+      //   object.position.x = -100;
+      //   object.position.z = -100;
+      //   object.traverse((child) => {
+      //     if (child.isMesh) {
+      //       child.material.color.set(0x711f15); // Change to red color
+      //     }
+      //   });
+      //   // scene.add(object);
+      // });
 
       const houseLoader = new OBJLoader();
       houseLoader.load(
