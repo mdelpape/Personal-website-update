@@ -3,11 +3,16 @@ import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { Reflector } from "three/addons/objects/Reflector.js";
 import LoaderManager from "../managers/LoaderManager";
-import { OBJLoader } from "three/examples/jsm/loaders/OBJLoader";
+import { OBJLoader } from "three/addons/loaders/OBJLoader.js";
 import { MTLLoader } from "three/examples/jsm/loaders/MTLLoader";
 import waterdudv from "../assets/waterdudv.jpg";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader";
 import { TextGeometry } from "three/addons/geometries/TextGeometry.js";
+import { randFloat } from "three/src/math/MathUtils.js";
+// import person from "../assets/OBJ.obj";
+// import michal from "../assets/uploads_files_3684990_Michal.obj";
+// import house from "../assets/uploads_files_593643_247_House+15_obj.obj";
+// import fireHydrant from "../assets/FireHydrant_LOD1.obj";
 // import font from '@/client/src/assets/fonts/optimer_bold.typeface.json'
 // OBJLoader(THREE);
 
@@ -48,22 +53,25 @@ const Scene = () => {
       const scene = new THREE.Scene();
       scene.background = new THREE.Color(0x000000);
 
+      // Initialize camera
+      const height = window.innerHeight-500;
+
       const camera = new THREE.PerspectiveCamera(
         75,
-        window.innerWidth / window.innerHeight,
+        window.innerWidth / height,
         0.1,
         1000
       );
-      camera.position.set(0, 3, 10);
+      camera.position.set(0, 2.5, 10);
 
       // Initialize OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
 
-      const light = new THREE.DirectionalLight(0xffffff, 5);
+      const light = new THREE.DirectionalLight(0xffffff, 10);
       light.position.set(1, 1, 1);
       scene.add(light);
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.1);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
       scene.add(ambientLight);
 
       let groundMirror;
@@ -148,7 +156,7 @@ const Scene = () => {
       customShader.uniforms.tDudv = { value: dudvMap };
       customShader.uniforms.time = { value: 0 };
 
-      const mirrorGeometry = new THREE.CircleGeometry(100, 64);
+      const mirrorGeometry = new THREE.CircleGeometry(1000, 64);
       groundMirror = new Reflector(mirrorGeometry, {
         shader: customShader,
         clipBias: 0.003,
@@ -161,6 +169,46 @@ const Scene = () => {
       groundMirror.material.uniforms.time.value = 1;
       scene.add(groundMirror);
       //change speed of water
+
+      //change speed of water
+
+      // Object Loader (Example: loaded object from the web);
+      const loader = new OBJLoader();
+      loader.load("../assets/FireHydrant_LOD1.obj", (object) => {
+        object.position.y = -2;
+        object.position.x = -100;
+        object.position.z = -100;
+        object.traverse((child) => {
+          if (child.isMesh) {
+            child.material.color.set(0x711f15); // Change to red color
+          }
+        });
+        // scene.add(object);
+      });
+
+      const houseLoader = new OBJLoader();
+      houseLoader.load("../assets/uploads_files_593643_247_House+15_obj.obj", (object) => {
+        object.position.y = -2;
+        object.position.x = -100;
+        object.position.z = -150;
+        object.rotateY(3);
+        object.traverse((child) => {
+          child.scale.set(.5, .5, .5);
+          if (child.material) {
+            // If it's an array of materials, loop over each one
+            if (Array.isArray(child.material)) {
+              child.material.forEach((mat) => {
+                mat.color.set(0x61463A); // Set color to red
+              });
+            } else {
+              // It's a single material
+              child.material.color.set(0x691A11); // Set color to red
+            }
+          }
+        });
+        scene.add(object);
+      });
+
 
       const largeTorusGeometry = new THREE.TorusGeometry(10, 3, 10, 100);
       const largeTorusMaterial = new THREE.MeshStandardMaterial({
@@ -178,6 +226,38 @@ const Scene = () => {
       const cube = new THREE.Mesh(geometry, material);
       cube.position.y = 3;
       scene.add(cube);
+
+      const sphereGeometry = new THREE.SphereGeometry(100, 20, 50);
+      const sphereMaterial = new THREE.MeshStandardMaterial({
+        color: 0xfec771,
+      });
+      const sphere = new THREE.Mesh(sphereGeometry, sphereMaterial);
+      sphere.position.y = 200;
+      sphere.position.z = -800;
+      sphere.position.x = 200;
+      scene.add(sphere);
+
+      const ringGeometry = new THREE.RingGeometry(130, 200, 32);
+      const ringMaterial = new THREE.MeshStandardMaterial({
+        color: 0x746755,
+      });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      ring.position.y = 200;
+      ring.position.z = -800;
+      ring.position.x = 200;
+      ring.rotateX(-1);
+      ring.rotateY(0.5);
+      scene.add(ring);
+
+      const moonGeometry = new THREE.SphereGeometry(20, 20, 20);
+      const moonMaterial = new THREE.MeshStandardMaterial({
+        color: 0xffffff,
+      });
+      const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+      moon.position.y = 200;
+      moon.position.z = -800;
+      moon.position.x = -200;
+      scene.add(moon);
 
       // Geometry and Material (Example: simple sphere)
       const textStandGeometry = new THREE.BoxGeometry(13, 0.5, 2);
@@ -206,13 +286,39 @@ const Scene = () => {
       const torusKnot = new THREE.Mesh(torusKnotGeometry, torusKnotMaterial);
       torusKnot.position.x = 0;
       torusKnot.position.z = 0;
-      scene.add(torusKnot);
+      // scene.add(torusKnot);
 
       // Geometry and Material (Example: simple torus)
       const geometry2 = new THREE.TorusGeometry();
       const torus = new THREE.Mesh(geometry2, material);
       torus.position.x = 2;
       // scene.add(torus);
+
+      //set stars
+      const starGeometry = new THREE.BufferGeometry();
+
+      // create a simple square shape. We duplicate the top left and bottom right
+      // vertices because each vertex needs to appear once per triangle.
+      const vertices = []; // 10000 vertices, 3 components each (x, y, z)
+      const range = 500;
+      for (let i = 0; i < 2000; i++) {
+        const point = new THREE.Vector3(
+          randFloat(-range, range),
+          randFloat(70, 200),
+          randFloat(-range, range)
+        );
+        vertices.push(...point);
+      }
+
+      // itemSize = 3 because there are 3 values (components) per vertex
+      starGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(new Float32Array(vertices), 3)
+      );
+      const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
+      const mesh = new THREE.Points(starGeometry, starMaterial);
+      // mesh.scale.set(2,2,2);
+      scene.add(mesh);
 
       // Load font
       const fontLoader = new FontLoader();
@@ -247,6 +353,7 @@ const Scene = () => {
         if (text && text.position.y < 0) {
           text.position.y += 0.01;
         }
+        // ring.rotation.x += 0.001;
         torusKnot.rotation.x += 0.001;
         torus.rotation.x += 0.01;
         torus.rotation.y += 0.01;
@@ -259,6 +366,7 @@ const Scene = () => {
 
         animationFrameId.current = requestAnimationFrame(animate);
       };
+
 
       const handleResize = () => {
         const width = window.innerWidth;
@@ -287,8 +395,8 @@ const Scene = () => {
   }, [assetsLoaded]);
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <canvas ref={canvasRef} className="scene"></canvas>
+    <div style={{ flex: 1 }}>
+      <canvas style={{width: '100%'}} ref={canvasRef} className="scene"></canvas>
     </div>
   );
 };
