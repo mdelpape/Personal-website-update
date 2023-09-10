@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "npx webpack --watch --mode development & npx nodemon --watch ./server ./server/index.js",
     "build": "npx webpack --mode production",
-    "start": "node ./server/index.js"
+    "start": "node ./server/index.js",
+    "deploy": "npm run build && mkdir -p docs && cp -R client/dist/* docs && cp -R server docs && touch docs/.nojekyll && gh-pages -d docs"
   },
   "repository": {
     "type": "git",
