@@ -67,7 +67,7 @@ const Scene = () => {
       // Initialize OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
 
-      const light = new THREE.DirectionalLight(0xffffff, 10);
+      const light = new THREE.DirectionalLight(0xffffff, 2);
       light.position.set(1, 1, 1);
       scene.add(light);
 
