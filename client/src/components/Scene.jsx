@@ -54,7 +54,7 @@ const Scene = () => {
       scene.background = new THREE.Color(0x000000);
 
       // Initialize camera
-      const height = window.innerHeight-500;
+      const height = window.innerHeight - 500;
 
       const camera = new THREE.PerspectiveCamera(
         75,
@@ -187,38 +187,38 @@ const Scene = () => {
       });
 
       const houseLoader = new OBJLoader();
-      houseLoader.load("../assets/uploads_files_593643_247_House+15_obj.obj", (object) => {
-        object.position.y = -2;
-        object.position.x = -100;
-        object.position.z = -150;
-        object.rotateY(3);
-        object.traverse((child) => {
-          child.scale.set(.5, .5, .5);
-          if (child.material) {
-            // If it's an array of materials, loop over each one
-            if (Array.isArray(child.material)) {
-              child.material.forEach((mat) => {
-                mat.color.set(0x61463A); // Set color to red
-              });
-            } else {
-              // It's a single material
-              child.material.color.set(0x691A11); // Set color to red
+      houseLoader.load(
+        "../assets/uploads_files_593643_247_House+15_obj.obj",
+        (object) => {
+          object.position.y = -2;
+          object.position.x = -100;
+          object.position.z = -150;
+          object.rotateY(3);
+          object.traverse((child) => {
+            child.scale.set(0.5, 0.5, 0.5);
+            if (child.material) {
+              // If it's an array of materials, loop over each one
+              if (Array.isArray(child.material)) {
+                child.material.forEach((mat) => {
+                  mat.color.set(0x61463a); // Set color to red
+                });
+              } else {
+                // It's a single material
+                child.material.color.set(0x691a11); // Set color to red
+              }
             }
-          }
-        });
-        scene.add(object);
-      });
+          });
+          scene.add(object);
+        }
+      );
 
-
-      const largeTorusGeometry = new THREE.TorusGeometry(10, 3, 10, 100);
-      const largeTorusMaterial = new THREE.MeshStandardMaterial({
+      const sphereGeometry2 = new THREE.SphereGeometry(0.3, 20, 50);
+      const sphereMaterial2 = new THREE.MeshStandardMaterial({
         color: 0xffffff,
-        metalness: 0.5,
-        roughness: 0.1,
       });
-      const largeTorus = new THREE.Mesh(largeTorusGeometry, largeTorusMaterial);
-      largeTorus.position.y = -2;
-      // scene.add(largeTorus);
+      const sphere2 = new THREE.Mesh(sphereGeometry2, sphereMaterial2);
+      sphere2.position.y = 3;
+      scene.add(sphere2);
 
       // Geometry and Material (Example: simple cube)
       const geometry = new THREE.BoxGeometry();
@@ -300,7 +300,7 @@ const Scene = () => {
       // create a simple square shape. We duplicate the top left and bottom right
       // vertices because each vertex needs to appear once per triangle.
       const vertices = []; // 10000 vertices, 3 components each (x, y, z)
-      const range = 500;
+      const range = 1000;
       for (let i = 0; i < 2000; i++) {
         const point = new THREE.Vector3(
           randFloat(-range, range),
@@ -321,6 +321,7 @@ const Scene = () => {
       scene.add(mesh);
 
       // Load font
+      const txtMaterial = new THREE.MeshStandardMaterial({ color: 0xffffff });
       const fontLoader = new FontLoader();
       let text;
       fontLoader.load(
@@ -339,8 +340,9 @@ const Scene = () => {
           });
           textGeometry.center();
 
-          text = new THREE.Mesh(textGeometry, material);
+          text = new THREE.Mesh(textGeometry, txtMaterial);
           text.position.y = -2.8;
+          text.material.color.set(0xBABABA);
           scene.add(text);
         }
       );
@@ -348,11 +350,19 @@ const Scene = () => {
       const renderScene = () => {
         renderer.render(scene, camera);
       };
+      let angle = 0; // Initialize angle
+      const radius = 2; // Define radius of the orbit
+      const speed = 0.01; // Define speed of the orbit
 
       const animate = () => {
         if (text && text.position.y < 0) {
           text.position.y += 0.01;
         }
+        angle += speed;
+
+        // Calculate new position
+        sphere2.position.x = radius * Math.cos(angle);
+        sphere2.position.z = radius * Math.sin(angle);
         // ring.rotation.x += 0.001;
         torusKnot.rotation.x += 0.001;
         torus.rotation.x += 0.01;
@@ -366,7 +376,6 @@ const Scene = () => {
 
         animationFrameId.current = requestAnimationFrame(animate);
       };
-
 
       const handleResize = () => {
         const width = window.innerWidth;
@@ -396,7 +405,11 @@ const Scene = () => {
 
   return (
     <div style={{ flex: 1 }}>
-      <canvas style={{width: '100%'}} ref={canvasRef} className="scene"></canvas>
+      <canvas
+        style={{ width: "100%" }}
+        ref={canvasRef}
+        className="scene"
+      ></canvas>
     </div>
   );
 };

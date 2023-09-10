@@ -9,7 +9,7 @@ export default function App() {
   return (
     <div id="App">
       <div id="header">
-        <p>Header</p>
+        <p></p>
         <div>
           <button className="headerBtn" onClick={() => setView("scene")}>
             Scene
