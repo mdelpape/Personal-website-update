@@ -21,6 +21,8 @@ const Scene = () => {
   const canvasRef = useRef(null);
   const animationFrameId = useRef(null);
   const [assetsLoaded, setAssetsLoaded] = React.useState(false);
+  const [cameraState, setCameraState] = React.useState(0);
+  console.log(cameraState)
 
   useEffect(() => {
     const init = async () => {
@@ -63,7 +65,7 @@ const Scene = () => {
         0.1,
         1000
       );
-      camera.position.set(0, 2.5, 10);
+      camera.position.set(0, 100, 2000);
 
       // Initialize OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
@@ -342,7 +344,7 @@ const Scene = () => {
           textGeometry.center();
 
           text = new THREE.Mesh(textGeometry, txtMaterial);
-          text.position.y = -2.8;
+          text.position.y = -5;
           text.material.color.set(0xBABABA);
           scene.add(text);
         }
@@ -355,11 +357,22 @@ const Scene = () => {
       const radius = 2; // Define radius of the orbit
       const speed = 0.01; // Define speed of the orbit
 
+      let cameraState = true
       const animate = () => {
         if (text && text.position.y < 0) {
           text.position.y += 0.01;
         }
         angle += speed;
+
+        // camera.position.x = radius * Math.cos(angle);
+        if (camera.position.z > 25 && cameraState) {
+        camera.position.z -= 8
+        if (camera.position.y > 5) {
+          camera.position.y -= .4
+          }
+        } else {
+          cameraState = false
+        }
 
         // Calculate new position
         sphere2.position.x = radius * Math.cos(angle);
