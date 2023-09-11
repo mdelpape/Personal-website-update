@@ -22,7 +22,7 @@ const Scene = () => {
   const animationFrameId = useRef(null);
   const [assetsLoaded, setAssetsLoaded] = React.useState(false);
   const [cameraState, setCameraState] = React.useState(0);
-  console.log(cameraState)
+  console.log(cameraState);
 
   useEffect(() => {
     const init = async () => {
@@ -66,6 +66,7 @@ const Scene = () => {
         1000
       );
       camera.position.set(0, 100, 2000);
+      camera.far = 10000;
 
       // Initialize OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
@@ -159,13 +160,13 @@ const Scene = () => {
       customShader.uniforms.tDudv = { value: dudvMap };
       customShader.uniforms.time = { value: 0 };
 
-      const mirrorGeometry = new THREE.CircleGeometry(1000, 64);
+      const mirrorGeometry = new THREE.CircleGeometry(2500, 64);
       groundMirror = new Reflector(mirrorGeometry, {
         shader: customShader,
         clipBias: 0.003,
         textureWidth: window.innerWidth * window.devicePixelRatio,
         textureHeight: window.innerHeight * window.devicePixelRatio,
-        color: 0x003272,
+        color: 0x000001,
       });
       groundMirror.position.y = -2;
       groundMirror.rotateX(-Math.PI / 2);
@@ -345,7 +346,7 @@ const Scene = () => {
 
           text = new THREE.Mesh(textGeometry, txtMaterial);
           text.position.y = -5;
-          text.material.color.set(0xBABABA);
+          text.material.color.set(0xbababa);
           scene.add(text);
         }
       );
@@ -357,7 +358,10 @@ const Scene = () => {
       const radius = 2; // Define radius of the orbit
       const speed = 0.01; // Define speed of the orbit
 
-      let cameraState = true
+      let targetZ = 15;
+      let targetY = 1;
+      let easeFactor = 0.015;
+      let cameraState = true;
       const animate = () => {
         if (text && text.position.y < 0) {
           text.position.y += 0.01;
@@ -365,13 +369,24 @@ const Scene = () => {
         angle += speed;
 
         // camera.position.x = radius * Math.cos(angle);
-        if (camera.position.z > 25 && cameraState) {
-        camera.position.z -= 8
-        if (camera.position.y > 5) {
-          camera.position.y -= .4
+        if (cameraState) {
+          // Calculate the distance to move the camera for both z and y
+          let zDistance = (targetZ - camera.position.z) * easeFactor;
+          let yDistance = (targetY - camera.position.y) * easeFactor;
+
+          // Update the camera position
+          camera.position.z += zDistance;
+          camera.position.y += yDistance;
+
+          // If the camera is close enough to the target, stop moving
+          if (
+            Math.abs(targetZ - camera.position.z) < 0.01 &&
+            Math.abs(targetY - camera.position.y) < 0.01
+          ) {
+            cameraState = false;
           }
-        } else {
-          cameraState = false
+
+          camera.updateProjectionMatrix();
         }
 
         // Calculate new position
