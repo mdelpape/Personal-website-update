@@ -360,7 +360,7 @@ const Scene = () => {
 
       let targetZ = 15;
       let targetY = 1;
-      let easeFactor = 0.1;
+      let easeFactor = 0.015;
       let cameraState = true;
 
       const animate = () => {
