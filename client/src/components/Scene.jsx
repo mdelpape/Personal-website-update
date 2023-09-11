@@ -71,11 +71,11 @@ const Scene = () => {
       // Initialize OrbitControls
       const controls = new OrbitControls(camera, renderer.domElement);
 
-      const light = new THREE.DirectionalLight(0xffffff, 2);
+      const light = new THREE.DirectionalLight(0xffffff, 5);
       light.position.set(1, 1, 1);
       scene.add(light);
 
-      const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+      const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
       scene.add(ambientLight);
 
       let groundMirror;
@@ -345,7 +345,7 @@ const Scene = () => {
           textGeometry.center();
 
           text = new THREE.Mesh(textGeometry, txtMaterial);
-          text.position.y = -5;
+          text.position.y = -3;
           text.material.color.set(0xbababa);
           scene.add(text);
         }
@@ -360,8 +360,9 @@ const Scene = () => {
 
       let targetZ = 15;
       let targetY = 1;
-      let easeFactor = 0.015;
+      let easeFactor = 0.1;
       let cameraState = true;
+
       const animate = () => {
         if (text && text.position.y < 0) {
           text.position.y += 0.01;
