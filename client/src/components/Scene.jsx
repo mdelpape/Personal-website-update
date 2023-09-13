@@ -22,7 +22,6 @@ const Scene = () => {
   const animationFrameId = useRef(null);
   const [assetsLoaded, setAssetsLoaded] = React.useState(false);
   const [cameraState, setCameraState] = React.useState(0);
-  console.log(cameraState);
 
   useEffect(() => {
     const init = async () => {
@@ -133,7 +132,7 @@ const Scene = () => {
 			gl_FragColor = vec4( mix( base.rgb, color, 0.7 ), 1.0 );
 
 			#include <tonemapping_fragment>
-			#include <encodings_fragment>
+			#include <colorspace_fragment>
 
 		}
 `;

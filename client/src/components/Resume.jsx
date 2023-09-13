@@ -1,9 +1,8 @@
 import React from "react";
+import Test from "./Test";
 
 export default function Resume() {
   return (
-    <div id="resume">
-      <div>Resume</div>
-    </div>
+    <Test/>
   );
 }

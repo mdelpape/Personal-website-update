@@ -2,9 +2,10 @@ import React from "react";
 import Scene from "./Scene.jsx";
 import Portfolio from "./Portfolio.jsx";
 import Resume from "./Resume.jsx";
+import SolarSystem from "./SolarSystem.jsx";
 
 export default function App() {
-  const [view, setView] = React.useState("scene");
+  const [view, setView] = React.useState("solarSystem");
 
   return (
     <div id="App">
@@ -14,17 +15,17 @@ export default function App() {
           <button className="headerBtn" onClick={() => setView("scene")}>
             Scene
           </button>
-          <button className="headerBtn" onClick={() => setView("portfolio")}>
-            Portfolio
+          <button className="headerBtn" onClick={() => setView("solarSystem")}>
+            Solar System
           </button>
-          <button className="headerBtn" onClick={() => setView("resume")}>
+          {/* <button className="headerBtn" onClick={() => setView("resume")}>
             Resume
-          </button>
+          </button> */}
         </div>
       </div>
       <div>
         {view === "scene" && <Scene />}
-        {view === "portfolio" && <Portfolio />}
+        {view === "solarSystem" && <SolarSystem />}
         {view === "resume" && <Resume />}
       </div>
     </div>

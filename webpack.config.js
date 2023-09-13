@@ -7,9 +7,15 @@ module.exports = {
     path: path.join(__dirname, './client/dist'),
     filename: 'bundle.js',
   },
+  devServer: {
+    contentBase: path.join(__dirname, './client/dist'),
+    publicPath: '/',
+    port: 9000,
+    hot: true
+  },
   devtool: 'source-map',
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['.js', '.jsx'],
   },
   plugins: [],
   module: {
