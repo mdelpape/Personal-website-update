@@ -13,7 +13,7 @@ import { randFloat } from "three/src/math/MathUtils.js";
 import house from "../assets/uploads_files_593643_247_House+15_obj.obj";
 import water from "../assets/waterdudv.jpg";
 import { WaterRefractionShader } from "three/examples/jsm/shaders/WaterRefractionShader.js";
-// import jupiter from "../assets/jupiter.jpg";
+import jup from "../assets/jupiter.jpg";
 
 const SolarSystem = () => {
   const canvasRef = useRef(null);
