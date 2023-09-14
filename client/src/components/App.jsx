@@ -1,7 +1,5 @@
 import React from "react";
 import Scene from "./Scene.jsx";
-import Portfolio from "./Portfolio.jsx";
-import Resume from "./Resume.jsx";
 import SolarSystem from "./SolarSystem.jsx";
 
 export default function App() {
@@ -18,15 +16,11 @@ export default function App() {
           <button className="headerBtn" onClick={() => setView("solarSystem")}>
             Solar System
           </button>
-          {/* <button className="headerBtn" onClick={() => setView("resume")}>
-            Resume
-          </button> */}
         </div>
       </div>
       <div>
         {view === "scene" && <Scene />}
         {view === "solarSystem" && <SolarSystem />}
-        {view === "resume" && <Resume />}
       </div>
     </div>
   );
