@@ -2,6 +2,7 @@ import React from "react";
 import Scene from "./Scene.jsx";
 import SolarSystem from "./SolarSystem.jsx";
 import ImageEffect from "./ImageEffect.jsx";
+import Slider from "rc-slider";
 
 export default function App() {
   const [view, setView] = React.useState("scene");
