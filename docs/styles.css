@@ -48,19 +48,4 @@ img {
   background-color: black;
 }
 
-.slider {
-  position: absolute;
-  width: 100px;
-  height: 20px;
-  z-index: 100;
-}
 
-#sliderContainer {
-  position: absolute;
-  top: 200px;
-  left: 0px;
-  width: 100px;
-  height: 20px;
-  position: absolute;
-  border: 1px solid black;
-}
