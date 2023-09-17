@@ -21,7 +21,6 @@ const SolarSystem = () => {
   const [assetsLoaded, setAssetsLoaded] = React.useState(false);
   const [cameraState, setCameraState] = React.useState(0);
   const [jupiterLoaded, setJupiterLoaded] = React.useState(false);
-  console.log("jupiterLoaded", jupiterLoaded)
 
   useEffect(() => {
     const init = async () => {
@@ -156,7 +155,6 @@ const SolarSystem = () => {
         });
         jupiter = new THREE.Mesh(jupiterGeometry, jupiterMaterial);
         jupiter.position.set(1200, 0, 0);
-        console.log("jupiter", jupiter);
         scene.add(jupiter);
         setJupiterLoaded(true);
       });
@@ -258,6 +256,8 @@ const SolarSystem = () => {
       animate(); // Start the animation loop
       // }
       // Cleanup: remove event listener, cancel animation frame, and dispose controls on component unmount
+    console.log('ran')
+
       return () => {
         window.removeEventListener("resize", handleResize);
         controls.dispose();

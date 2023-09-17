@@ -1,9 +1,10 @@
 import React from "react";
 import Scene from "./Scene.jsx";
 import SolarSystem from "./SolarSystem.jsx";
+import ImageEffect from "./ImageEffect.jsx";
 
 export default function App() {
-  const [view, setView] = React.useState("solarSystem");
+  const [view, setView] = React.useState("scene");
 
   return (
     <div id="App">
@@ -11,16 +12,20 @@ export default function App() {
         <p></p>
         <div>
           <button className="headerBtn" onClick={() => setView("scene")}>
-            Scene
+            Home
           </button>
           <button className="headerBtn" onClick={() => setView("solarSystem")}>
             Solar System
+          </button>
+          <button className="headerBtn" onClick={() => setView("imageEffect")}>
+            Image Effect
           </button>
         </div>
       </div>
       <div>
         {view === "scene" && <Scene />}
         {view === "solarSystem" && <SolarSystem />}
+        {view === "imageEffect" && <ImageEffect />}
       </div>
     </div>
   );
