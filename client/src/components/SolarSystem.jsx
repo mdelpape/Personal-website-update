@@ -264,6 +264,7 @@ const SolarSystem = () => {
         if (animationFrameId.current) {
           cancelAnimationFrame(animationFrameId.current);
         }
+
       };
     }
   }, [assetsLoaded]);
