@@ -3,6 +3,7 @@
 ## Overview
 
 This repository contains the code for my personal side projects. The site is built using [three.js, webgl, glsl, HTML, CSS, JavaScript] and showcases my skills, experience, projects, and more.
+-[Link to Website](https://personal-website-update.vercel.app/)
 
 ## Features
 
