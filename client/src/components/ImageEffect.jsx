@@ -44,13 +44,13 @@ export default function ImageEffect() {
         this.size = this.effect.gap;
         this.vx = 0;
         this.vy = 0;
-        this.ease = 0.05;
-        this.friction = 0.5;
+        this.ease = 0.01;
+        this.friction = 0.95;
         this.dx = 0;
         this.dy = 0;
-        this.distance = 0;
+        this.distance = 1;
         this.force = 0;
-        this.angle = 0.5;
+        this.angle = 1;
       }
       draw(context) {
         context.fillStyle = this.color;
